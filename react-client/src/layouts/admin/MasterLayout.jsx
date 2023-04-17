@@ -11,7 +11,7 @@ const MasterLayout = () => {
             <div className="bg-gray-100">
                 <div className="flex-wrap flex">
                     <Sidebar />
-                    <div className="py-4 px-6">
+                    <div className="py-4 px-6 flex w-3/4">
                         <Routes>
                             {routes.map((route, idx) => {
                                 return(
