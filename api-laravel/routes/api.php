@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +25,20 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
         return response()->json(['message'=>'You are in', 'status'=>200], 200);
     });
 
+    // //Category
+    // Route::post('store-category', [CategoryController::class, 'store']);
+
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', [UserController::class, 'logout']);
+
+    //Category
+    Route::post('store-category', [CategoryController::class, 'store']);
+    Route::get('view-category', [CategoryController::class, 'view']);
+    Route::get('edit-category/{id}', [CategoryController::class, 'edit']);
+    Route::put('update-category/{id}', [CategoryController::class, 'update']);
+    Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
 
 });
