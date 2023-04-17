@@ -13,7 +13,13 @@ const Sidebar = () => {
                         <Link to={'/admin/products'}>Products</Link>
                     </div>
                     <div className="py-2 flex">
-                        <Link to={'/add-product'}>Add Product</Link>
+                        <Link to={'/admin/add-product'}>Add Product</Link>
+                    </div>
+                    <div className="py-2 flex">
+                        <Link to={'/admin/view-category'}>View Category</Link>
+                    </div>
+                    <div className="py-2 flex">
+                        <Link to={'/admin/add-category'}>Add Category</Link>
                     </div>
                 </div>
             </div>
