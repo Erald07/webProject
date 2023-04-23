@@ -1,14 +1,17 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function Category() {
+
+    const navigate = useNavigate();
 
     const [categoryInput, setCategory] = useState({
         name: '',
         slug: '',
         description: '',
-        status: '',
+        status: 0,
         error_list: [],
     });
 
@@ -27,7 +30,7 @@ function Category() {
             status: categoryInput.status,
         }
 
-        axios.post(`http://localhost:8000/api/store-category`, data).then(res => {
+        axios.post(`/api/store-category`, data).then(res => {
 
             if(res.data.status === 200){
                 Swal.fire({
@@ -37,6 +40,7 @@ function Category() {
                     timer: 2500
                 });
                 document.getElementById('CATEGORY_FORM').reset();
+                navigate('/admin/view-category');
             }
             else if(res.data.status === 400){
                 setCategory({...categoryInput, error_list: res.data.errors})
@@ -44,7 +48,6 @@ function Category() {
         });
     }
 
-    console.log(categoryInput.error_list)
     var display_errors = [];
     if(categoryInput.error_list){
         display_errors = [

@@ -116,8 +116,8 @@ export const Register = (props) => {
     ];
 
     async function Save(){
-        axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
-            axios.post("http://localhost:8000/api/register-user", values).then(res => {
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post("/api/register-user", values).then(res => {
                 if(res.data.status === 200){
                     localStorage.setItem("auth_token", res.data.token);
                     localStorage.setItem("auth_name", res.data.username);

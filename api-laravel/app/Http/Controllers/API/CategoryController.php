@@ -53,7 +53,7 @@ class CategoryController extends Controller
             $category->name = $request->input('name');
             $category->slug = $request->input('slug');
             $category->description = $request->input('description');
-            $category->status = $request->input('status') == true ? '0' : '1';
+            $category->status = $request->input('status') == true ? '1' : '0';
 
             $category->save();
             return response()->json([

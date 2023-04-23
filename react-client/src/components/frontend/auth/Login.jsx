@@ -46,8 +46,8 @@ export default function Login(){
     ];
 
     async function Login(){
-        axios.get('http://localhost:8000/sanctum/csrf-cookie').then(response => {
-            axios.post("http://localhost:8000/api/login-user", values).then(res => {
+        axios.get(`/sanctum/csrf-cookie`).then(response => {
+            axios.post(`/api/login-user`, values).then(res => {
                 if(res.data.status === 200){
 
                     localStorage.setItem("auth_token", res.data.token);
@@ -59,7 +59,13 @@ export default function Login(){
                         showConfirmButton: false,
                         timer: 2500
                     });
-                    navigate('/');
+
+                    if(res.data.role === 'admin'){
+                        navigate('/admin/dashboard');
+                    }
+                    else{
+                        navigate('/');
+                    }
                 }
                 else if(res.data.status === 400){
                     Swal.fire({

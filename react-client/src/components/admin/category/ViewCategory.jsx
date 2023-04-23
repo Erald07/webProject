@@ -9,7 +9,7 @@ function ViewCategory() {
     const [categorylist, setCategorylist] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/view-category`).then(res => {
+        axios.get(`/api/view-category`).then(res => {
             if(res.data.status === 200){
                 setCategorylist(res.data.category);
             }
@@ -23,7 +23,7 @@ function ViewCategory() {
         const thisClicked = e.currentTarget;
         thisClicked.innerText = "Deleting";
 
-        axios.delete(`http://localhost:8000/api/delete-category/${id}`).then( res => {
+        axios.delete(`/api/delete-category/${id}`).then( res => {
             if(res.data.status === 200) {
                 Swal.fire({
                     icon: 'success',
@@ -33,7 +33,7 @@ function ViewCategory() {
                 thisClicked.closest("tr").remove();
             }
             else if(res.data.status === 404){
-                
+
             }
         })
 
@@ -56,33 +56,34 @@ function ViewCategory() {
             )
         })
     }
+    
     return (
         <div className='w-full shadow-2xl p-6'>
             <div className='flex justify-between'>
                 <h1 className='text-3xl pt-3 pb-8 font-medium'>View Category</h1>
-                <Link to={'/admin/add-category'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-2xl h-12 pt-2'>Add Category</Link>
+                <Link to={'/admin/add-category'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-md h-fit py-2 mt-6'>Add Category</Link>
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Category ID
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Category Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Category Slug
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Edit
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" className="px-6 py-3">
                                 Delete
                             </th>
                         </tr>

@@ -19,26 +19,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register-user', [UserController::class, 'registerUser']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
 
-Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
+Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
         return response()->json(['message'=>'You are in', 'status'=>200], 200);
     });
 
-    // //Category
-    // Route::post('store-category', [CategoryController::class, 'store']);
+    
+    // Category
+    Route::post('store-category', [CategoryController::class, 'store']);
+    Route::get('view-category', [CategoryController::class, 'view']);
+    Route::get('edit-category/{id}', [CategoryController::class, 'edit']);
+    Route::put('update-category/{id}', [CategoryController::class, 'update']);
+    Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
 
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', [UserController::class, 'logout']);
-
-    //Category
-    Route::post('store-category', [CategoryController::class, 'store']);
-    Route::get('view-category', [CategoryController::class, 'view']);
-    Route::get('edit-category/{id}', [CategoryController::class, 'edit']);
-    Route::put('update-category/{id}', [CategoryController::class, 'update']);
-    Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
 
 });

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
 import MasterLayout from './layouts/admin/MasterLayout';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-function AdminPrivateRoute({...rest}) {
+function AdminPrivateRoute() {
 
     const [Authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/checkingAuthenticated`).then(res => {
+        axios.get(`/api/checkingAuthenticated`).then(res => {
             if(res.status === 200){
                 setAuthenticated(true);
             }
@@ -57,20 +57,22 @@ function AdminPrivateRoute({...rest}) {
         }
     );
 
+
     if(loading){
         return <h1>Loading...</h1>
     }
 
     return (
-        <Routes>
-            <Route {...rest} 
-                element={ 
-                    Authenticated ? 
-                    ( <MasterLayout />) :
-                    ( <Navigate to="/login" replace /> )
-                }
-            />
-        </Routes>
+        // <Routes>
+        //     <Route {...rest} 
+        //         element={ 
+        //             Authenticated ? 
+        //             ( <MasterLayout />) :
+        //             ( <Navigate to="/login" replace /> )
+        //         }
+        //     />
+        // </Routes>
+        Authenticated ?  <MasterLayout /> :  <Navigate to="/login" replace /> 
     )
 }
 

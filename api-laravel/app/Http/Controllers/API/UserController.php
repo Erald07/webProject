@@ -81,7 +81,7 @@ class UserController extends Controller
                     $token = $userDetails->createToken($userDetails->email . '_AdminToken', ['server:admin'])->plainTextToken;
                 }
                 else{
-                    $role = '';
+                    $role = 'user';
                     $token = $userDetails->createToken($userDetails->email . '_Token', [''])->plainTextToken;
                 }
 
@@ -89,7 +89,8 @@ class UserController extends Controller
                     'status' => 200,
                     "username" => $userDetails->first_name,
                     'token' => $token,
-                    'message' => "Login Successfully!"
+                    'message' => "Login Successfully!",
+                    'role' => $role,
                 ]);
             }
         }

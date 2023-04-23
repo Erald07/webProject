@@ -14,7 +14,7 @@ function EditCategory(props) {
 
     useEffect( () => {
 
-        axios.get(`http://localhost:8000/api/edit-category/${id}`).then( res => {
+        axios.get(`/api/edit-category/${id}`).then( res => {
             if(res.data.status === 200){
                 setCategory(res.data.category);
             }
@@ -39,7 +39,7 @@ function EditCategory(props) {
         e.preventDefault();
 
         const data = categoryInput;
-        axios.put(`http://localhost:8000/api/update-category/${id}`, data).then(res => {
+        axios.put(`/api/update-category/${id}`, data).then(res => {
 
             if(res.data.status === 200){
                 Swal.fire({
@@ -49,6 +49,7 @@ function EditCategory(props) {
                     timer: 2500
                 });
                 setError([]);
+                navigate('/admin/view-category');
             }
             else if(res.data.status === 422){
                 Swal.fire({
@@ -79,7 +80,7 @@ function EditCategory(props) {
         <div className='w-full shadow-2xl p-6'>
             <div className='flex justify-between'>
                 <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Category</h1>
-                <Link to={'/admin/view-category'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-2xl h-12 pt-2'>Back</Link>
+                <Link to={'/admin/view-category'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-md h-fit py-2 mt-6'>Back</Link>
             </div>
             <form onSubmit={updateCategory}>
                 <div className="mb-6">
@@ -99,7 +100,7 @@ function EditCategory(props) {
                 </div>
                 <div className="flex items-start mb-6">
                     <div className="flex items-center h-5">
-                        <input type="checkbox" onChange={handleInput} value={categoryInput.status} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" />
+                        <input type="checkbox" onChange={handleInput} value={categoryInput.status} defaultChecked={categoryInput.status === 1 ? true : false} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" />
                     </div>
                     <label htmlFor="status" className="ml-2 text-sm font-medium text-gray-900">Status</label>
                 </div>
