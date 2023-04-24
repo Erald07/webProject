@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate, Outlet } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import MasterLayout from './layouts/admin/MasterLayout';
 import axios from 'axios';
 import Swal from 'sweetalert2';

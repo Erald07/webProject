@@ -52,7 +52,7 @@ function Header() {
             <>
             <h2 className="py-2 text-center text-2xl lg:text-lg font-semibold text">Hi {name}!</h2>
             <div className="px-2 flex">
-                <button onClick={logoutSubmit} className="text-center decoration-none w-full py-2 px-5 rounded-full bg-primary text-white hover:bg-white hover:text-primary duration-75 delay-75 outline-primary outline-1 hover:outline uppercase">disconnettersi</button>
+                <button onClick={logoutSubmit} className="text-center decoration-none w-full py-2 px-5 rounded-full bg-primary text-white hover:bg-white hover:text-primary duration-75 delay-75 outline-primary outline-1 hover:outline uppercase">Log out</button>
             </div>
             </>
         );
