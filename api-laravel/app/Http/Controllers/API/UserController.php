@@ -7,10 +7,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    public function view()
+    {
+        $user = User::all();
+        return response()->json([
+            'status' => 200,
+            'user' => $user,
+        ]);
+    }
     public function registerUser(Request $request)
     {
         if($request->isMethod('POST')){
@@ -104,5 +113,37 @@ class UserController extends Controller
             'status' => 200,
             'message' => "Logged out Successfully!"
         ]);
+    }
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|:rfc,dns|unique:users,email',
+            'password' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/',
+            'confirmPassword' => 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/|regex:/[@$!%*#?&]/|same:password',
+            'first_name' => 'required',
+            'last_name' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+            ]);
+        }
+        else{
+            $user = new User;
+
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->role_as = 1;
+
+            $user->save();
+            return response()->json([
+                'status' => 200,
+                'message' => "User Added Successfull"
+            ]);
+        }
     }
 }
