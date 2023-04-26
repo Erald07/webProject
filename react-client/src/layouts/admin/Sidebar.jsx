@@ -10,16 +10,22 @@ const Sidebar = () => {
                         <Link to={'/admin/dashboard'}>Dashboard</Link>
                     </div>
                     <div className="py-2 flex">
-                        <Link to={'/admin/products'}>Products</Link>
+                        <Link to={'/admin/view-product'}>Products</Link>
                     </div>
                     <div className="py-2 flex">
                         <Link to={'/admin/add-product'}>Add Product</Link>
                     </div>
                     <div className="py-2 flex">
-                        <Link to={'/admin/view-category'}>View Category</Link>
+                        <Link to={'/admin/view-category'}>Categories</Link>
                     </div>
                     <div className="py-2 flex">
                         <Link to={'/admin/add-category'}>Add Category</Link>
+                    </div>
+                    <div className="py-2 flex">
+                        <Link to={'/admin/view-user'}>Users</Link>
+                    </div>
+                    <div className="py-2 flex">
+                        <Link to={'/admin/add-user'}>Add User</Link>
                     </div>
                 </div>
             </div>

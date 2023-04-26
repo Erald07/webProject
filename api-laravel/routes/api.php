@@ -33,6 +33,13 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::put('update-category/{id}', [CategoryController::class, 'update']);
     Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
 
+    //Product
+    Route::post('store-product', [ProductController::class,'store']);
+
+    //User
+    Route::post('store-user', [UserController::class,'store']);
+    Route::get('view-user', [UserController::class, 'view']);
+
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
