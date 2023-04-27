@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+public function index(){
+    $products = Product::all();
+    return response()->json([
+        'status'=>200,
+        'products'=>$products
+    ])
+}
+
     public function store(Request $request)
     {   
         // return response()->json([
