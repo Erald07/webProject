@@ -111,17 +111,13 @@ class ProductController extends Controller
             if($product)
             {
                 $product->category_id=$request->input('category_id');
-                $product->slug=$request->input('slug');
                 $product->name=$request->input('name');
-
-                $product->meta_title=$request->input('meta_title');
-                $product->meta_keyword=$request->input('meta_keyword');
-                $product->meta_description=$request->input('meta_description');
-
-                $product->brand=$request->input('brand');
-                $product->selling_price=$request->input('selling_price');
+                $product->slug=$request->input('slug');
+                $product->description=$request->input('description');
                 $product->original_price=$request->input('original_price');
+                $product->selling_price=$request->input('selling_price');
                 $product->quantity=$request->input('quantity');
+                $product->quantity=$request->input('warranty');
 
                 if($request->hasFile('image'))
                 {
@@ -154,9 +150,6 @@ class ProductController extends Controller
                     'message'=>'Product not found !',
                 ]);
             }
-            
-
         }
     }
-
 }
