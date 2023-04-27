@@ -44,7 +44,8 @@ function EditProduct(props) {
 
         axios.get(`/api/edit-product/${id}`).then(res => {
             if (res.data.status === 200) {
-                setProduct(res.data.product)
+                setProduct(res.data.product);
+                setCheckboxes(res.data.product);
             }
             else if (res.data.status === 404) {
                 Swal("Error", res.data.message, "error");
@@ -53,7 +54,7 @@ function EditProduct(props) {
             setLoading(false);
         });
 
-    }, [id]);
+    }, [id, navigate]);
 
     const updateProduct = (e) => {
         e.preventDefault()
@@ -183,7 +184,7 @@ function EditProduct(props) {
                         <label htmlFor="status" className="ml-2 text-sm font-medium text-gray-900">Status</label>
                     </div>
                 </div>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update</button>
             </form>
         </div>
     );
