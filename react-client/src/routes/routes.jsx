@@ -6,11 +6,13 @@ import EditCategory from '../components/admin/category/EditCategory';
 import Product from '../components/admin/product/Product';
 import User from '../components/admin/user/User';
 import ViewUser from '../components/admin/user/ViewUser';
+import EditProduct from '../components/admin/product/EditProduct';
 
 const routes = [
     { path: '/admin', exact: true, name:'Admin', },
     { path: 'dashboard', exact: true, name:'Dashboard', component: Dashboard },
     { path: 'view-product', exact: true, name:'ViewProducts', component: ViewProduct },
+    { path: 'edit-product/:id', exact: true, name:'EditProduct', component: EditProduct },
     { path: 'add-product', exact: true, name:'Product', component: Product },
     { path: 'add-category', exact: true, name:'Category', component: Category },
     { path: 'edit-category/:id', exact: true, name:'EditCategory', component: EditCategory },
