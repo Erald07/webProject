@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 
     //Product
     Route::post('store-product', [ProductController::class, 'store']);
-    Route::get('view-product', [ProductController::class, 'index'])
+
     //User
     Route::post('store-user', [UserController::class,'store']);
     Route::get('view-user', [UserController::class, 'view']);
