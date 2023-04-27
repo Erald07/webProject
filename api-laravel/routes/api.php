@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,9 +33,10 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::get('edit-category/{id}', [CategoryController::class, 'edit']);
     Route::put('update-category/{id}', [CategoryController::class, 'update']);
     Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
+    Route::get('all-category', [CategoryController::class, 'allcategory']);
 
     //Product
-    Route::post('store-product', [ProductController::class,'store']);
+    Route::post('store-product', [ProductController::class, 'store']);
 
     //User
     Route::post('store-user', [UserController::class,'store']);
