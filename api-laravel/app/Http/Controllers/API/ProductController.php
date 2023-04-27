@@ -90,15 +90,13 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(),
         [
             'category_id'=>'required|max:191',
+            'name'=>'required|max:191',
             'slug'=>'required|max:191',
-            'name'=>'required|max1:91',
-            'meta_title'=>'required|max:191',
-            'brand'=>'required|max:20',
-            'selling_price'=>'required|max:20',
             'original_price'=>'required|max:20',
+            'selling_price'=>'required|max:20',
             'quantity'=>'required|max:4',
-
-
+            'warranty'=>'required|max:4',
+            // 'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         if($validator->fails())
         {
@@ -128,10 +126,10 @@ class ProductController extends Controller
                 if($request->hasFile('image'))
                 {
                     $path = $product->image;
-                    if(File::exists($path))
-                    {
-                        FIle::delete($path);
-                    }
+                    //if(File::exists($path))
+                    //{
+                    //    File::delete($path);
+                    //}
                     $file=$request->file('image');
                     $extension =$file->getClientOriginalExtension();
                     $filename = time().'.'.$extension;
