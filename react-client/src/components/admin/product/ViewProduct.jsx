@@ -19,7 +19,7 @@ const ViewProduct = () => {
   if (loading) {
     return <h4>View Product loading...</h4>;
   } else {
-    display_ProductData = viewProduct.map((item) => {
+    display_ProductData = ViewProduct.map((item) => {
       return (
         <tr key={item.id}>
           <td>{item.id}</td>
