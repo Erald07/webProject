@@ -7,14 +7,16 @@ import Header from './components/frontend/navbar/Header';
 import Page403 from './components/error/Page403';
 import Page404 from './components/error/Page404';
 import AdminPrivateRoute from './AdminPrivateRoute';
+import Home from './components/frontend/Home';
+import About from './components/frontend/About';
+import Contact from './components/frontend/Contact';
+import PublicRoute from './PublicRoute';
 
 import PublicRoute from './PublicRoute';
 
 axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
-
-// axios.defaults.withCredentials = true;
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem('auth_token');
@@ -27,7 +29,11 @@ function App() {
     <Router>
       <Routes>
 
-        <Route exact path='/' element={<Header />} />
+        {/* <Route exact path='/' element={<Home />} />
+        <Route exact path='/about' element={<About />} />
+        <Route exact path='/contact' element={<Contact />} /> */}
+
+        <Route path='/*' element={<PublicRoute />} />
 
         <Route path='/*' element={<PublicRoute/>} />
 

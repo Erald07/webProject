@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function view(){
+        $products = Product::all();
+        return response()->json([
+            'status'=>200,
+            'products'=>$products
+        ]);
+    }
+
     public function store(Request $request)
     {   
         // return response()->json([
@@ -110,14 +118,14 @@ class ProductController extends Controller
             $product= Product::find($id);
             if($product)
             {
-                $product->category_id=$request->input('category_id');
-                $product->name=$request->input('name');
-                $product->slug=$request->input('slug');
-                $product->description=$request->input('description');
-                $product->original_price=$request->input('original_price');
-                $product->selling_price=$request->input('selling_price');
-                $product->quantity=$request->input('quantity');
-                $product->quantity=$request->input('warranty');
+                $product->category_id = $request->input('category_id');
+                $product->name = $request->input('name');
+                $product->slug = $request->input('slug');
+                $product->description = $request->input('description');
+                $product->original_price = $request->input('original_price');
+                $product->selling_price = $request->input('selling_price');
+                $product->quantity = $request->input('quantity');
+                $product->warranty = $request->input('warranty');
 
                 if($request->hasFile('image'))
                 {
@@ -133,9 +141,9 @@ class ProductController extends Controller
                     $product->image= 'uploads/product/'.$filename;
                 }
 
-                $product->featured=$request->input('festuared') == true ? '1':'0';
-                $product->popular=$request->input('popular') == true ? '1':'0';
-                $product->status=$request->input('status')== true ? '1':'0';
+                $product->featured=$request->input('featured');
+                $product->popular=$request->input('popular');
+                $product->status=$request->input('status');
                 $product->update();
 
                 return response ()->json([

@@ -44,7 +44,8 @@ function EditProduct(props) {
 
         axios.get(`/api/edit-product/${id}`).then(res => {
             if (res.data.status === 200) {
-                setProduct(res.data.product)
+                setProduct(res.data.product);
+                setCheckboxes(res.data.product);
             }
             else if (res.data.status === 404) {
                 Swal("Error", res.data.message, "error");
@@ -53,7 +54,7 @@ function EditProduct(props) {
             setLoading(false);
         });
 
-    }, [id]);
+    }, [id, navigate]);
 
     const updateProduct = (e) => {
         e.preventDefault()
@@ -105,7 +106,10 @@ function EditProduct(props) {
 
     return (
         <div className='w-full shadow-2xl p-6'>
-            <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Product</h1>
+            <div className='flex justify-between'>
+                <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Product</h1>
+                <Link to={'/admin/view-product'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-md h-fit py-2 mt-6'>Back</Link>
+            </div>
             <form onSubmit={updateProduct} encType="multipart/form-data" id='PRODUCT_FORM'>
                 <div className="mb-6">
                     <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 ">Select Category</label>
@@ -183,7 +187,7 @@ function EditProduct(props) {
                         <label htmlFor="status" className="ml-2 text-sm font-medium text-gray-900">Status</label>
                     </div>
                 </div>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">Update</button>
             </form>
         </div>
     );
