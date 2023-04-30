@@ -21,9 +21,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register-user', [UserController::class, 'registerUser']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
 
-Route::get('getCategory', [FrontendController::class, 'category']);
-Route::get('fetchproducts/{slug}', [FrontendController::class, 'product']);
-
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
@@ -54,5 +51,12 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/logout', [UserController::class, 'logout']);
+
+    //Category
+    Route::get('getCategory', [FrontendController::class, 'category']);
+    Route::get('fetchproducts/{slug}', [FrontendController::class, 'product']);
+
+    //Product
+    Route::get('viewproductdetail/{categoory_slug}/{product_slug}', [FrontendController::class, 'viewproduct']);
 
 });
