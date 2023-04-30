@@ -8,6 +8,8 @@ import Page403 from './components/error/Page403';
 import Page404 from './components/error/Page404';
 import AdminPrivateRoute from './AdminPrivateRoute';
 
+import PublicRoute from './PublicRoute';
+
 axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
@@ -26,6 +28,8 @@ function App() {
       <Routes>
 
         <Route exact path='/' element={<Header />} />
+
+        <Route path='/*' element={<PublicRoute/>} />
 
         <Route path='/403' element={<Page403 />} />
         <Route path='/404' element={<Page404 />} />
