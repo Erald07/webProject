@@ -5,6 +5,8 @@ import Contact from "../components/frontend/Contact";
 import Home from "../components/frontend/Home";
 import Login from "../components/frontend/auth/Login";
 import Register from "../components/frontend/auth/Register";
+import ViewProduct from "../components/frontend/collections/ViewProduct";
+import ViewCategory from "../components/frontend/collections/ViewCategory";
 
 const publicrouteslist = [
     { path: '/', exact: true, name:'Home', component: Home },
@@ -14,6 +16,8 @@ const publicrouteslist = [
     { path: '404', exact: true, name:'Page404', component: Page404 },
     { path: 'login', exact: true, name:'Login', component: Login },
     { path: 'register', exact: true, name:'Register', component: Register },
+    { path: 'collections', exact:true, name:'ViewCategory', component: ViewCategory },
+    { path: 'collections/:slug', exact:true, name:'ViewProduct', component: ViewProduct },
 ];
 
 export default publicrouteslist;

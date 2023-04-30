@@ -60,8 +60,8 @@ function Navbar() {
         );
     }
     return (
-        <div className="bg-gray-100">
-            <div className="container">
+        <div className="bg-gray-100 border-b border-gray-150">
+            <div className="px-10">
                 <div className="px-2 py-5">
                     <div className="justify-between items-center flex">
                         <div className="flex">
@@ -69,10 +69,7 @@ function Navbar() {
                                 <Link>Shop All</Link>
                             </div>
                             <div className="px-4">
-                                <Link>Electric Scooters</Link>
-                            </div>
-                            <div className="px-4">
-                                <Link>Accessories</Link>
+                                <Link>Collections</Link>
                             </div>
                             <div className="px-4">
                                 <Link to={'about'}>About</Link>

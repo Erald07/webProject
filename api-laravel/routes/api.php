@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register-user', [UserController::class, 'registerUser']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
 
+Route::get('getCategory', [FrontendController::class, 'category']);
+Route::get('fetchproducts/{slug}', [FrontendController::class, 'product']);
+
 Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
 
     Route::get('/checkingAuthenticated', function () {
@@ -35,7 +39,7 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
     Route::get('all-category', [CategoryController::class, 'allcategory']);
 
-    //Product
+    //Product 
     Route::post('store-product', [ProductController::class, 'store']);
     Route::get('edit-product/{id}', [ProductController::class, 'edit']);
     Route::post('update-product/{id}', [ProductController::class, 'update']);
