@@ -45,13 +45,15 @@ function ViewCategory() {
     else{
         viewCategory_table = categorylist.map( (category) => {
             return(
-                <tr key={category.id}>
-                    <td className='px-4'>{category.id}</td>
+                <tr key={category.id} className='text-center border-b-2 border-gray-300 last-of-type:border-none'>
+                    <td>{category.id}</td>
                     <td>{category.name}</td>
                     <td>{category.slug}</td>
                     <td>{category.status}</td>
-                    <td><Link to={`/admin/edit-category/${category.id}`} className='py-1.5 px-2 text-base font-medium bg-secondary text-white rounded-lg'>Edit</Link></td>
-                    <td><button onClick={(e) => deleteCategory(e, category.id)} className='py-1 px-2 text-lg font-base bg-pink-700 text-white rounded-lg'>Delete</button></td>
+                    <td className='flex justify-center space-x-5'>
+                        <Link to={`/admin/edit-category/${category.id}`} className='py-1.5 px-2 text-base font-medium bg-secondary text-white rounded-lg'>Edit</Link>
+                        <button onClick={(e) => deleteCategory(e, category.id)} className='py-1 px-2 text-lg font-base bg-pink-700 text-white rounded-lg'>Delete</button>
+                    </td>
                 </tr>
             )
         })
@@ -65,9 +67,9 @@ function ViewCategory() {
             </div>
 
             <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
+                <table className="w-full text-sm text-left">
+                    <thead className="text-xs text-gray-400 uppercase bg-gray-700">
+                        <tr className='text-center'>
                             <th scope="col" className="px-6 py-3">
                                 Category ID
                             </th>
@@ -81,10 +83,7 @@ function ViewCategory() {
                                 Status
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Edit
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Delete
+                                Actions
                             </th>
                         </tr>
                     </thead>

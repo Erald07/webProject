@@ -106,7 +106,10 @@ function EditProduct(props) {
 
     return (
         <div className='w-full shadow-2xl p-6'>
-            <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Product</h1>
+            <div className='flex justify-between'>
+                <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Product</h1>
+                <Link to={'/admin/view-product'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-md h-fit py-2 mt-6'>Back</Link>
+            </div>
             <form onSubmit={updateProduct} encType="multipart/form-data" id='PRODUCT_FORM'>
                 <div className="mb-6">
                     <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 ">Select Category</label>
