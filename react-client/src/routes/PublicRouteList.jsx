@@ -14,7 +14,6 @@ const publicrouteslist = [
     { path: '404', exact: true, name:'Page404', component: Page404 },
     { path: 'login', exact: true, name:'Login', component: Login },
     { path: 'register', exact: true, name:'Register', component: Register },
-
 ];
 
 export default publicrouteslist;
