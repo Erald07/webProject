@@ -19,15 +19,13 @@ const ViewProduct = () => {
   if (loading) {
     return <h4>View Product loading...</h4>;
   } else {
-
-    var ProductStatus = ''
+    var ProductStatus = '';
     display_ProductData = viewProduct.map((item) => {
-    
       if(item.status == '0'){
-        ProductStatus = 'Shown';
+        ProductStatus = 'Shown'
       }
-      else{
-        ProductStatus = 'Hidden';
+      else if(item.status == '1'){
+        ProductStatus = 'Hidden'
       }
       return (
         item.quantity === '0' ? 
