@@ -13,7 +13,7 @@ function ViewCategory()
             {
                 if(res.data.status ===200)
                 {
-                    //console.log(res.data.category);
+                    console.log(res.data.category);
                     setCategory(res.data.category);
                     setLoading(false);
                 }

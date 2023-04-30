@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
     Route::get('all-category', [CategoryController::class, 'allcategory']);
 
-    //Product
+    //Product 
     Route::post('store-product', [ProductController::class, 'store']);
     Route::get('edit-product/{id}', [ProductController::class, 'edit']);
     Route::post('update-product/{id}', [ProductController::class, 'update']);

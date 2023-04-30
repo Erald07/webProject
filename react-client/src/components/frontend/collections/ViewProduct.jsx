@@ -40,7 +40,7 @@ function ViewProduct(props)
         return () => {
             isMounted = false
         };
-    }, [props.match.params.slug, navigate]);
+    }, [navigate]);
 
     if(loading)
     {

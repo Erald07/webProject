@@ -12,7 +12,6 @@ import About from './components/frontend/About';
 import Contact from './components/frontend/Contact';
 import PublicRoute from './PublicRoute';
 
-import PublicRoute from './PublicRoute';
 
 axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -34,8 +33,6 @@ function App() {
         <Route exact path='/contact' element={<Contact />} /> */}
 
         <Route path='/*' element={<PublicRoute />} />
-
-        <Route path='/*' element={<PublicRoute/>} />
 
         <Route path='/403' element={<Page403 />} />
         <Route path='/404' element={<Page404 />} />
