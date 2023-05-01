@@ -10,8 +10,62 @@ function ProductDetail(props) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const[product, setProduct] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+
     const { category_slug } = useParams();
     const { product_slug } = useParams();
+
+    const handleDecrement = () => {
+        if(quantity > 1){
+            setQuantity(prevCount => prevCount - 1);
+        }
+    }
+
+    const handleIncrement = () => {
+        if(quantity < 10){
+            setQuantity(prevCount => prevCount + 1);
+        }       
+    }
+
+    const submitAddtocart = (e) => {
+        e.preventDefault();
+
+        const data = {
+            product_id: product.id,
+            product_qty: quantity,
+        }
+
+        axios.post(`/api/add-to-cart`, data).then(res => {
+            if(res.data.status === 201){
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.message,
+                    showConfirmButton: true,
+                });
+            }
+            else if(res.data.status === 409){
+                Swal.fire({
+                    icon: 'warning',
+                    title: res.data.message,
+                    showConfirmButton: true,
+                });
+            }
+            else if(res.data.status === 401){
+                Swal.fire({
+                    icon: 'error',
+                    title: res.data.message,
+                    showConfirmButton: true,
+                });
+            }
+            else if(res.data.status === 404){
+                Swal.fire({
+                    icon: 'warning',
+                    title: res.data.message,
+                    showConfirmButton: true,
+                });
+            }
+        });
+    }
 
     useEffect(() => {
         
@@ -25,10 +79,14 @@ function ProductDetail(props) {
                     setProduct(res.data.product);
                     setLoading(false);
                 }
-                else if(res.data.status ===404)
+                else if(res.data.status === 404)
                 {
                     navigate('/collections');
-                    Swal("Warning",res.data.message,"error");
+                    Swal.fire({
+                        icon: 'error',
+                        title: res.data.message,
+                        showConfirmButton: true,
+                    });
                 }
             }
         })
@@ -52,13 +110,13 @@ function ProductDetail(props) {
                 <div className="pt-8 flex">
                     <div className="w-1/4 border border-gray-300">
                         <div className="py-2 px-3 flex text-gray-500">
-                            <button type='button' className='input-group-text'>-</button>
-                            <input type="text" className='form-control text-center w-full bg-gray-100 outline-none'/>
-                            <button type='button' className='input-group-text'>+</button>
+                            <button type='button' onClick={handleDecrement} className='input-group-text'>-</button>
+                            <div className='form-control text-center w-full bg-gray-100 outline-none'>{quantity}</div>
+                            <button type='button' onClick={handleIncrement}  className='input-group-text'>+</button>
                         </div>
                     </div>
                     <div className="w-2/5 mx-2">
-                        <button type='button' className='bg-primary w-full px-4 py-2 rounded-md text-white font-semibold uppercase'>Add to Cart</button>
+                        <button type='button' onClick={submitAddtocart} className='bg-primary w-full px-4 py-2 rounded-md text-white font-semibold uppercase'>Add to Cart</button>
                     </div>
                     <div className="w-2/4 mx-2">
                         <button type='button' className='bg-secondary w-full px-4 py-2 rounded-lg text-white font-semibold uppercase'>Add to wishlist</button>

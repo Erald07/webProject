@@ -69,7 +69,7 @@ function Navbar() {
                                 <Link>Shop All</Link>
                             </div>
                             <div className="px-4">
-                                <Link>Collections</Link>
+                                <Link to={'collections'}>Collections</Link>
                             </div>
                             <div className="px-4">
                                 <Link to={'about'}>About</Link>
@@ -79,7 +79,7 @@ function Navbar() {
                             </div>
                         </div>
                         <div className="flex">
-                            <h1 className='text-3xl font-semibold'>Gangot</h1>
+                            <h1 className='text-3xl font-semibold'>Electronic Shop</h1>
                         </div>
                         <div className="flex">
                             <div className="justify-between flex space-x-6 items-center">
@@ -90,7 +90,7 @@ function Navbar() {
                                     </div>
                                 </div>
                                 <div className="flex text-xl text-primary">
-                                    <FontAwesomeIcon icon={faBasketShopping} />
+                                    <Link to={'cart'}><FontAwesomeIcon icon={faBasketShopping} /></Link>
                                 </div>
                                 <div className="flex text-xl">
                                     <FontAwesomeIcon onClick={handleClick} icon={faUser} className='cursor-pointer' />

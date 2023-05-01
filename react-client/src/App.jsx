@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/frontend/auth/Login';
 import Register from './components/frontend/auth/Register';
 import axios from 'axios';
-import Header from './components/frontend/navbar/Header';
 import Page403 from './components/error/Page403';
 import Page404 from './components/error/Page404';
 import AdminPrivateRoute from './AdminPrivateRoute';

@@ -8,6 +8,7 @@ import Register from "../components/frontend/auth/Register";
 import ViewProduct from "../components/frontend/collections/ViewProduct";
 import ViewCategory from "../components/frontend/collections/ViewCategory";
 import ProductDetail from "../components/frontend/collections/ProductDetail";
+import Cart from "../components/frontend/Cart";
 
 const publicrouteslist = [
     { path: '/', exact: true, name:'Home', component: Home },
@@ -20,6 +21,7 @@ const publicrouteslist = [
     { path: 'collections', exact:true, name:'ViewCategory', component: ViewCategory },
     { path: 'collections/:product_slug', exact:true, name:'ViewProduct', component: ViewProduct },
     { path: 'collections/:category_slug/:product_slug', exact:true, name:'ProductDetail', component: ProductDetail },
+    { path: 'cart', exact:true, name:'Cart', component: Cart },
 ];
 
 export default publicrouteslist;

@@ -58,8 +58,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::put('update-category/{id}', [CategoryController::class, 'update']);
     // Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
     // Route::get('all-category', [CategoryController::class, 'allcategory']);
-    Route::post('add-to-card', [CartController::class, 'addtocart']);
-    Route::get('cart', [CartController::class, 'viewcart']);
 
     //Category
     Route::get('getCategory', [FrontendController::class, 'category']);
@@ -67,5 +65,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Product
     Route::get('viewproductdetail/{categoory_slug}/{product_slug}', [FrontendController::class, 'viewproduct']);
+
+    //Cart
+    Route::post('add-to-cart', [CartController::class, 'addtocart']);
+    Route::get('cart', [CartController::class, 'viewcart']);
+    Route::put('cart-updateqty/{cart_id}/{scope}', [CartController::class, 'updateqty']);
+    Route::delete('delete-cartitem/{cart_id}', [CartController::class, 'deletecartitem']);
 
 });
