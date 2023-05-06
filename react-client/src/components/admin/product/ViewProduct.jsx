@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import '../../frontend/collections/Style.css';
+
 const ViewProduct = () => {
   const [loading, setLoading] = useState(true);
   const [viewProduct, setProduct] = useState([]);
@@ -17,7 +19,7 @@ const ViewProduct = () => {
   var display_ProductData = "";
 
   if (loading) {
-    return <h4>View Product loading...</h4>;
+    return  <div class="loader"></div>
   } else {
     var ProductStatus = '';
     display_ProductData = viewProduct.map((item) => {

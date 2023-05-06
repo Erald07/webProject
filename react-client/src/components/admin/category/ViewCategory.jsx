@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import '../../frontend/collections/Style.css';
 
 function ViewCategory() {
 
@@ -40,7 +41,7 @@ function ViewCategory() {
     }
     var viewCategory_table = '';
     if(loading){
-        return <h4>Loading Category...</h4>
+        return  <div class="loader"></div>
     }
     else{
         viewCategory_table = categorylist.map( (category) => {

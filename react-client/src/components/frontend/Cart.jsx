@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faCircleTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import './collections/Style.css';
 
 function Cart() {
 
@@ -101,7 +102,7 @@ function Cart() {
 
 
     if(loading){
-        return <h4>Product Cart Loading...</h4>
+        return  <div class="loader"></div>
     }
 
     var cart_HTML = '';

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import './Style.css';
 
 function ProductDetail(props) {
 
@@ -98,7 +99,7 @@ function ProductDetail(props) {
 
     if(loading)
     {
-        return <h4>Loading Product Details...</h4>
+        return  <div class="loader"></div>
     }
     else{
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link} from 'react-router-dom';
+import './Style.css';
 function ViewCategory()
 {
     const[loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ function ViewCategory()
 
     if(loading)
     {
-        return  <h4>Loading Categories...</h4>
+        return  <div class="loader"></div>
     }
     else
     {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import './Style.css';
 
 function ViewProduct(props)
 {
@@ -44,7 +45,7 @@ function ViewProduct(props)
 
     if(loading)
     {
-        return <h4>Loading Products...</h4>
+        return  <div class="loader"></div>
     }
     else
     {
