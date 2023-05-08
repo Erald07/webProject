@@ -5,6 +5,7 @@ use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\CheckoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,8 @@ Route::middleware(['auth:sanctum', 'is_admin'])->group(function () {
     //User
     Route::post('store-user', [UserController::class,'store']);
     Route::get('view-user', [UserController::class, 'view']);
+
+    Route::post("place-order" ,[CheckoutController::class, 'placeorder'])
 
 });
 
