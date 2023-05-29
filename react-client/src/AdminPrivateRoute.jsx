@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import MasterLayout from './layouts/admin/MasterLayout';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import './components/frontend/Style.css'
 
 function AdminPrivateRoute() {
 
@@ -59,19 +60,10 @@ function AdminPrivateRoute() {
 
 
     if(loading){
-        return <h1>Loading...</h1>
+        return  <div className="loader"></div>
     }
 
     return (
-        // <Routes>
-        //     <Route {...rest} 
-        //         element={ 
-        //             Authenticated ? 
-        //             ( <MasterLayout />) :
-        //             ( <Navigate to="/login" replace /> )
-        //         }
-        //     />
-        // </Routes>
         Authenticated ?  <MasterLayout /> :  <Navigate to="/login" replace /> 
     )
 }
