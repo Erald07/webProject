@@ -21,7 +21,7 @@ class CartController extends Controller{
                 if(Cart::where('product_id', $product_id)->where('user_id', $user_id)->exists()){
                     return response()->json([
                         'status'=> 409,
-                        'message'=> $productCheck->name.'Already Added to Cart',
+                        'message'=> $productCheck->name.' Already Added to Cart',
                     ]);
                 }
                 else{
@@ -45,7 +45,7 @@ class CartController extends Controller{
         }
         else{
             return response()->json([
-                'status'=> 404,
+                'status'=> 401,
                 'message'=> 'Login to Add to Cart',
             ]);
         }

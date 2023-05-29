@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
@@ -18,30 +19,92 @@ class FrontendController extends Controller
         ]);
     }
 
-    public function product($slug)
+    // public function product($slug)
+    // {
+    //     $category = Category::where('slug', $slug) -> where('status','0') ->get();
+
+    //     if($category)
+    //     {
+    //         $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+
+    //         if($product)
+    //         {
+    //             return response()->json([
+    //                 'status'=> 200,
+    //                 'product_data'=>[
+    //                     'product'=> $product,
+    //                     'category'=> $category,
+    //                 ]            
+    //             ]);
+    //         }
+    //         else
+    //         {
+    //             return response()->json([
+    //                 'status' =>400,
+    //                 'message'=>'No products available'
+    //             ]);        
+    //         }
+    //     }
+    //     else
+    //     {
+    //         return response()->json([
+    //             'status'=> 404,
+    //             'message'=>'No Such Category Found'
+    //         ]);
+    //     }
+    // }
+    public function product(Request $request, $slug)
     {
         $category = Category::where('slug', $slug) -> where('status','0') ->get();
 
         if($category)
         {
-            $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+            $query = Product::query();
 
-            if($product)
-            {
+            if ($request->has('orderBy')) {
+                if($request->input('orderBy') != null){
+                    $orderBy = $request->input('orderBy');
+                    if($orderBy == 'latest'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('created_at', 'desc')->get();
+                    }
+                    if($orderBy == 'price-low-to-high'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('selling_price', 'asc')->get();
+                    }
+                    if($orderBy == 'price-high-to-low'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('selling_price', 'desc')->get();
+                    }
+    
+                    $product = $query->get();
+                    return response()->json([
+                        'status' => 200,
+                        'product_data'=>[
+                            'product'=> $product,
+                            'category'=> $category,
+                        ]
+                    ]);
+                }
+                else{
+                    $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+    
+                    return response()->json([
+                        'status' => 200,
+                        'product_data'=>[
+                            'product'=> $product,
+                            'category'=> $category,    
+                        ]  
+                    ]);
+                }
+            }
+            else{
+                $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+
                 return response()->json([
-                    'status'=> 200,
+                    'status' => 200,
                     'product_data'=>[
                         'product'=> $product,
                         'category'=> $category,
-                    ]            
+                    ]  
                 ]);
-            }
-            else
-            {
-                return response()->json([
-                    'status' =>400,
-                    'message'=>'No products available'
-                ]);        
             }
         }
         else
@@ -52,7 +115,7 @@ class FrontendController extends Controller
             ]);
         }
     }
-    public function viewproduct($category_slug, $product_slug)
+    public function viewproduct_details($category_slug, $product_slug)
     {
         $category = Category::where('slug', $category_slug) ->where('status','0')->first();
 
@@ -82,5 +145,73 @@ class FrontendController extends Controller
                 'message'=>'No Such Category Found'
             ]);
         }
+    }
+    public function search(Request $request)
+    {
+        $searchText = $request->input('searchText');
+
+        $query = Product::query();
+
+        if($request->has('orderBy')){
+            if($request->input('orderBy') != null){
+                $orderBy = $request->input('orderBy');
+                if($orderBy == 'popularity'){
+                    $products = Product::join('orders', 'products.id', '=', 'order_items.product_id')
+                    ->groupBy('products.id')
+                    ->orderBy(DB::raw('SUM(orders.quantity)'), 'desc')
+                    ->get();
+
+                    return response()->json([
+                        'status' => 200,
+                        'products' => $products
+                    ]);
+                }
+                if($orderBy == 'latest'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('created_at', 'desc')->get();
+                }
+                if($orderBy == 'price-low-to-high'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('selling_price', 'asc')->get();
+                }
+                if($orderBy == 'price-high-to-low'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('selling_price', 'desc')->get();
+                }
+                $products = $query->get();
+
+                if($products){
+                    return response()->json([
+                        'status' => 200,
+                        'products' => $products
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'status' => 400,
+                        'message' => "No Products"
+                    ]);
+                }
+            }
+            else{
+                $query->where('name', 'like', '%' . $searchText . '%')->get();
+                $products = $query->get();
+
+                return response()->json([
+                    'status' => 200,
+                    'products' => $products,
+                ]);
+            }
+        }
+        else{ 
+            $query->where('name', 'like', '%' . $searchText . '%')->get();
+            $products = $query->get();
+
+            return response()->json([
+                'status' => 200,
+                'products' => $products,
+            ]);
+        }
+    }
+    public function index(Request $request)
+    {
+        return Product::filter($request)->get();
     }
 }

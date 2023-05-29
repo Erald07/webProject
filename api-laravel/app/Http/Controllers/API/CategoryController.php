@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -47,6 +48,7 @@ class CategoryController extends Controller
             'name' => 'required|max:191',
             'slug' => 'required|max:191',
             'description' => 'required|max:191',
+            'photo'=>'required|image|max:2048',
         ]);
 
         if($validator->fails()){
@@ -61,6 +63,16 @@ class CategoryController extends Controller
             $category->name = $request->input('name');
             $category->slug = $request->input('slug');
             $category->description = $request->input('description');
+
+            if($request->hasFile('photo'))
+            {   
+                $file=$request->file('photo');
+                $extension =$file->getClientOriginalExtension();
+                $filename = time().'.'.$extension;
+                $file->move('uploads/category/',$filename);
+                $category->photo= 'uploads/category/'.$filename;
+            }
+
             $category->status = $request->input('status') == true ? '1' : '0';
 
             $category->save();
@@ -92,7 +104,22 @@ class CategoryController extends Controller
                 $category->name = $request->input('name');
                 $category->slug = $request->input('slug');
                 $category->description = $request->input('description');
-                $category->status = $request->input('status') == true ? '0' : '1';
+
+                if($request->hasFile('photo'))
+                {
+                    $path = $category->photo;
+                    if(File::exists($path))
+                    {
+                       File::delete($path);
+                    }
+                    $file=$request->file('photo');
+                    $extension =$file->getClientOriginalExtension();
+                    $filename = time().'.'.$extension;
+                    $file->move('uploads/category/',$filename);
+                    $category->photo= 'uploads/category/'.$filename;
+                }
+
+                $category->status = $request->input('status');
 
                 $category->save();
                 return response()->json([

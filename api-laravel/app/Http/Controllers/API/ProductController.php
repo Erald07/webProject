@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -16,29 +17,32 @@ class ProductController extends Controller
             'products'=>$products
         ]);
     }
+    public function allProduct(){
+        $products = Product::where('status', 0)->get();
+        return response()->json([
+            'status'=>200,
+            'products'=>$products
+        ]);
+    }
 
     public function store(Request $request)
     {   
-        // return response()->json([
-        //     'inputs' => $request->all(),
-        // ]);
         $validator = Validator::make($request->all(),
         [
             'category_id'=>'required|max:191',
             'name'=>'required|max:191',
             'slug'=>'required|max:191',
-            'original_price'=>'required|max:20',
-            'selling_price'=>'required|max:20',
-            'quantity'=>'required|max:4',
-            'warranty'=>'required|max:4',
-            // 'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
+            'original_price'=>'required|regex:/^\d+(\.\d{1,2})?$/',
+            'selling_price'=>'required|regex:/^\d+(\.\d{1,2})?$/',
+            'quantity'=>'required|integer',
+            'warranty'=>'required|integer',
+            'photo'=>'required|image|max:2048',
         ]);
         if($validator->fails())
         {
             return response ()->json([
                 'status'=>422,
                 'errors'=>$validator->messages(),
-                'kot' => $request->all(),
             ]);
         }
         else
@@ -53,14 +57,13 @@ class ProductController extends Controller
             $product->quantity=$request->input('quantity');
             $product->warranty=$request->input('warranty');
 
-            if($request->hasFile('image'))
-            {
-                $file=$request->file('image');
+            if($request->hasFile('photo'))
+            {   
+                $file=$request->file('photo');
                 $extension =$file->getClientOriginalExtension();
                 $filename = time().'.'.$extension;
                 $file->move('uploads/product/',$filename);
-                $product->image= 'uploads/product/'.$filename;
-
+                $product->photo= 'uploads/product/'.$filename;
             }
 
             $product->featured=$request->input('featured') == true ? '1':'0';
@@ -71,10 +74,10 @@ class ProductController extends Controller
             return response ()->json([
                 'status'=>200,
                 'message'=>'Product added Successfully',
+                'product' => $product
             ]);
         }
     }
-
     public function edit($id)
     {
         $product = Product::find($id);
@@ -104,7 +107,6 @@ class ProductController extends Controller
             'selling_price'=>'required|max:20',
             'quantity'=>'required|max:4',
             'warranty'=>'required|max:4',
-            // 'image'=>'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         if($validator->fails())
         {
@@ -127,18 +129,18 @@ class ProductController extends Controller
                 $product->quantity = $request->input('quantity');
                 $product->warranty = $request->input('warranty');
 
-                if($request->hasFile('image'))
+                if($request->hasFile('photo'))
                 {
-                    $path = $product->image;
-                    //if(File::exists($path))
-                    //{
-                    //    File::delete($path);
-                    //}
-                    $file=$request->file('image');
+                    $path = $product->photo;
+                    if(File::exists($path))
+                    {
+                       File::delete($path);
+                    }
+                    $file=$request->file('photo');
                     $extension =$file->getClientOriginalExtension();
                     $filename = time().'.'.$extension;
                     $file->move('uploads/product/',$filename);
-                    $product->image= 'uploads/product/'.$filename;
+                    $product->photo= 'uploads/product/'.$filename;
                 }
 
                 $product->featured=$request->input('featured');
@@ -155,7 +157,7 @@ class ProductController extends Controller
             {
                 return response ()->json([
                     'status'=>404,
-                    'message'=>'Product not found !',
+                    'message'=>'Product not found!',
                 ]);
             }
         }
