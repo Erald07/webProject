@@ -9,7 +9,10 @@ import ViewProduct from "../components/frontend/collections/ViewProduct";
 import ViewCategory from "../components/frontend/collections/ViewCategory";
 import ProductDetail from "../components/frontend/collections/ProductDetail";
 import Cart from "../components/frontend/Cart";
-
+import Review from "../components/frontend/collections/review/Review";
+import Checkout from '../components/frontend/Checkout';
+import PersonalInformation from '../components/frontend/PersonalInformation';
+import SearchResults from "../components/frontend/SearchResult";
 const publicrouteslist = [
     { path: '/', exact: true, name:'Home', component: Home },
     { path: 'about', exact: true, name:'About', component: About },
@@ -22,6 +25,11 @@ const publicrouteslist = [
     { path: 'collections/:product_slug', exact:true, name:'ViewProduct', component: ViewProduct },
     { path: 'collections/:category_slug/:product_slug', exact:true, name:'ProductDetail', component: ProductDetail },
     { path: 'cart', exact:true, name:'Cart', component: Cart },
+    { path: 'all-product', exact: true, name:'Home', component: Home },
+    { path: 'getAllReview', exact: true, name:'AllReview', component: Review },
+    { path: 'checkout', exact: true, name:'Checkout', component: Checkout },
+    { path: 'personal-information', exact: true, name:'PersonalInformation', component: PersonalInformation },
+    {path: 'search', exact: true, name: 'SearchResult', component: SearchResults}
 ];
 
 export default publicrouteslist;
