@@ -27,6 +27,9 @@ const Sidebar = () => {
                     <div className="py-2 flex">
                         <Link to={'/admin/add-user'}>Add User</Link>
                     </div>
+                    <div className="py-2 flex">
+                        <Link to={'/admin/orders'}>Orders</Link>
+                    </div>
                 </div>
             </div>
         </div>

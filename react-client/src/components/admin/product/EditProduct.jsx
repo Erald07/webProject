@@ -20,7 +20,7 @@ function EditProduct(props) {
         warranty: '',
     });
 
-    const [picture, setPicture] = useState([]);
+    const [picture, setPicture] = useState(null);
     const [errorlist, setError] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -28,8 +28,8 @@ function EditProduct(props) {
         e.persist();
         setProduct({ ...productInput, [e.target.name]: e.target.value });
     }
-    const handleImage = (e) => {
-        setPicture({ image: e.target.files[0] });
+    const handleFileChange = (event) => {
+        setPicture(event.target.files[0]);
     }
 
     const [allcheckbox, setCheckboxes] = useState([]);
@@ -62,7 +62,7 @@ function EditProduct(props) {
         e.preventDefault()
 
         const formData = new FormData();
-        formData.append('image', picture.image);
+        formData.append('photo', picture);
         formData.append('category_id', productInput.category_id);
         formData.append('name', productInput.name);
         formData.append('slug', productInput.slug);
@@ -75,35 +75,44 @@ function EditProduct(props) {
         formData.append('popular', allcheckbox.popular ? '1' : '0');
         formData.append('status', allcheckbox.status ? '1' : '0');
 
-
-        axios.post(`/api/update-product/${id}`, formData).then(res => {
-            if (res.data.status === 200) {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.message,
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                setError([]);
-            }
-            else if (res.data.status === 422) {
-                Swal.fire({
-                    icon: 'error',
-                    title: "All fields are mandetory",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                setError(res.data.errors);
-            }
-            else if (res.data.status === 404) {
-                Swal("Error", res.data.message, "error");
-                navigate('/admin/view-product');
-            }
-        });
+        try{
+            axios.post(`/api/update-product/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then(res => {
+                if (res.data.status === 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: res.data.message,
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    setError([]);
+                    navigate('/admin/view-product');
+                }
+                else if (res.data.status === 422) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: "All fields are mandetory",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    setError(res.data.errors);
+                }
+                else if (res.data.status === 404) {
+                    Swal("Error", res.data.message, "error");
+                    navigate('/admin/view-product');
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     if (loading) {
-        return  <div class="loader"></div>
+        return  <div className="loader"></div>
     }
 
     return (
@@ -112,7 +121,7 @@ function EditProduct(props) {
                 <h1 className='text-3xl pt-3 pb-8 font-medium'>Edit Product</h1>
                 <Link to={'/admin/view-product'} className='px-5 text-white bg-gray-700 items-center rounded-xl text-md h-fit py-2 mt-6'>Back</Link>
             </div>
-            <form onSubmit={updateProduct} encType="multipart/form-data" id='PRODUCT_FORM'>
+            <form onSubmit={updateProduct} id='PRODUCT_FORM'>
                 <div className="mb-6">
                     <label htmlFor="category_id" className="block mb-2 text-sm font-medium text-gray-900 ">Select Category</label>
                     <select onChange={handleInput} value={productInput.category_id} name='category_id' className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" >
@@ -166,8 +175,9 @@ function EditProduct(props) {
                 </div>
                 <div className="mb-6">
                     <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900 ">Image</label>
-                    <input type='file' onChange={handleImage} name="image" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
-                    <p className='my-1 text-red-500'>{errorlist.image}</p>
+                    <input type='file' onChange={handleFileChange} name="image" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                    <img src={`http://localhost:8000/${productInput.photo}`} alt={productInput.photo} className='w-32' />
+                    <p className='my-1 text-red-500'>{errorlist.photo}</p>
                 </div>
                 <div className="flex items-start mb-6 space-x-20">
                     <div className='flex'>
