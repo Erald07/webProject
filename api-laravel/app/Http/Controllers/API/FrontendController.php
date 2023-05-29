@@ -61,9 +61,46 @@ class FrontendController extends Controller
         {
             $query = Product::query();
 
-            if ($request->has('orderBy')) {
-                if($request->input('orderBy') != null){
+            if($request->has('orderBy') && $request->has('minPrice')){
+                if($request->input('orderBy') != null && $request->input('minPrice') != null){
                     $orderBy = $request->input('orderBy');
+                    $minPrice = $request->input('minPrice');
+                    $maxPrice = $request->input('maxPrice');
+                    if($orderBy == 'default'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                    }
+                    if($orderBy == 'latest'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('created_at', 'desc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                    }
+                    if($orderBy == 'price-low-to-high'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('selling_price', 'asc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                    }
+                    if($orderBy == 'price-high-to-low'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('selling_price', 'desc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                    }
+                    $products = $query->get();
+    
+                    if($products){
+                        return response()->json([
+                            'status' => 200,
+                            'product_data'=>[
+                                'product'=> $products,
+                                'category'=> $category,
+                            ] 
+                        ]);
+                    }
+                    else{
+                        return response()->json([
+                            'status' => 400,
+                            'message' => "No Products"
+                        ]);
+                    }
+                }
+                else if($request->input('orderBy') != null && $request->input('minPrice') == null){
+                    $orderBy = $request->input('orderBy');
+                    if($orderBy == 'default'){
+                        $query->where('category_id', $category[0]['id'])->where('status', '0')->get();
+                    }
                     if($orderBy == 'latest'){
                         $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('created_at', 'desc')->get();
                     }
@@ -73,35 +110,68 @@ class FrontendController extends Controller
                     if($orderBy == 'price-high-to-low'){
                         $query->where('category_id', $category[0]['id'])->where('status', '0')->orderBy('selling_price', 'desc')->get();
                     }
+                    $products = $query->get();
     
-                    $product = $query->get();
-                    return response()->json([
-                        'status' => 200,
-                        'product_data'=>[
-                            'product'=> $product,
-                            'category'=> $category,
-                        ]
-                    ]);
+                    if($products){
+                        return response()->json([
+                            'status' => 200,
+                            'product_data'=>[
+                                'product'=> $products,
+                                'category'=> $category,
+                            ] 
+                        ]);
+                    }
+                    else{
+                        return response()->json([
+                            'status' => 400,
+                            'message' => "No Products"
+                        ]);
+                    }
+                }
+                else if($request->input('orderBy') == null && $request->input('minPrice') != null){
+                    $minPrice = $request->input('minPrice');
+                    $maxPrice = $request->input('maxPrice');
+    
+                    $query->where('category_id', $category[0]['id'])->where('status', '0')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                    
+                    $products = $query->get();
+    
+                    if($products){
+                        return response()->json([
+                            'status' => 200,
+                            'product_data'=>[
+                                'product'=> $products,
+                                'category'=> $category,
+                            ] 
+                        ]);
+                    }
+                    else{
+                        return response()->json([
+                            'status' => 400,
+                            'message' => "No Products"
+                        ]);
+                    }
                 }
                 else{
-                    $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+                    $query->where('category_id', $category[0]['id'])->get();
+                    $products = $query->get();
     
                     return response()->json([
                         'status' => 200,
                         'product_data'=>[
-                            'product'=> $product,
-                            'category'=> $category,    
-                        ]  
+                            'product'=> $products,
+                            'category'=> $category,
+                        ] 
                     ]);
                 }
             }
             else{
-                $product = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
+                $products = Product::where('category_id', $category[0]['id'])->where('status', '0')->get();
 
                 return response()->json([
                     'status' => 200,
                     'product_data'=>[
-                        'product'=> $product,
+                        'product'=> $products,
                         'category'=> $category,
                     ]  
                 ]);
@@ -152,19 +222,42 @@ class FrontendController extends Controller
 
         $query = Product::query();
 
-        if($request->has('orderBy')){
-            if($request->input('orderBy') != null){
+        if($request->has('orderBy') && $request->has('minPrice')){
+            if($request->input('orderBy') != null && $request->input('minPrice') != null){
                 $orderBy = $request->input('orderBy');
-                if($orderBy == 'popularity'){
-                    $products = Product::join('orders', 'products.id', '=', 'order_items.product_id')
-                    ->groupBy('products.id')
-                    ->orderBy(DB::raw('SUM(orders.quantity)'), 'desc')
-                    ->get();
+                $minPrice = $request->input('minPrice');
+                $maxPrice = $request->input('maxPrice');
+                if($orderBy == 'default'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                }
+                if($orderBy == 'latest'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('created_at', 'desc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                }
+                if($orderBy == 'price-low-to-high'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('selling_price', 'asc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                }
+                if($orderBy == 'price-high-to-low'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('selling_price', 'desc')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                }
+                $products = $query->get();
 
+                if($products){
                     return response()->json([
                         'status' => 200,
                         'products' => $products
                     ]);
+                }
+                else{
+                    return response()->json([
+                        'status' => 400,
+                        'message' => "No Products"
+                    ]);
+                }
+            }
+            else if($request->input('orderBy') != null && $request->input('minPrice') == null){
+                $orderBy = $request->input('orderBy');
+                if($orderBy == 'default'){
+                    $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->get();
                 }
                 if($orderBy == 'latest'){
                     $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->orderBy('created_at', 'desc')->get();
@@ -181,6 +274,27 @@ class FrontendController extends Controller
                     return response()->json([
                         'status' => 200,
                         'products' => $products
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'status' => 400,
+                        'message' => "No Products"
+                    ]);
+                }
+            }
+            else if($request->input('orderBy') == null && $request->input('minPrice') != null){
+                $minPrice = $request->input('minPrice');
+                $maxPrice = $request->input('maxPrice');
+
+                $query->where('name', 'like', '%' . $searchText . '%')->where('status', '0')->where('selling_price', '>=', $minPrice)->where('selling_price', '<=', $maxPrice)->get();
+                
+                $products = $query->get();
+
+                if($products){
+                    return response()->json([
+                        'status' => 200,
+                        'products' => $products,
                     ]);
                 }
                 else{
@@ -207,6 +321,7 @@ class FrontendController extends Controller
             return response()->json([
                 'status' => 200,
                 'products' => $products,
+                'kot' => "kot",
             ]);
         }
     }

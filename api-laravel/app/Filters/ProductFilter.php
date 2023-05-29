@@ -10,5 +10,6 @@ class ProductFilter extends AbstractFilter
     protected $filters = [
         'min_price' => MinPriceFilter::class,
         'max_price' => MaxPriceFilter::class,
+        'orderBy' => SortingFilter::class,
     ];
 }

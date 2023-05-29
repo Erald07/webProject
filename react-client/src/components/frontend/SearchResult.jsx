@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import './collections/Style.css'
+import './collections/Style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSliders } from '@fortawesome/free-solid-svg-icons';
+import FilterComponent from './multirangeSlider/FilterComponent';
 
 const SearchResults = () => {
     const navigate = useNavigate();
@@ -10,9 +13,14 @@ const SearchResults = () => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('query');
     const order = searchParams.get('orderBy');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const productsCount = results.length;
+
+    const [modalPrice, setModalPrice] = useState(false);
+
 
     const handleAddOrder = (e, newParams) => {
         const existingQuery = new URLSearchParams(window.location.search);
@@ -38,7 +46,7 @@ const SearchResults = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                await axios.post('/api/search', { searchText: query, orderBy: order }).then(res => {
+                await axios.post('/api/search', { searchText: query, orderBy: order, minPrice: minPrice, maxPrice: maxPrice }).then(res => {
                     if (res.data.status === 200) {
                         setResults(res.data.products);
                         setLoading(false)
@@ -55,7 +63,7 @@ const SearchResults = () => {
         if (query) {
             fetchResults();
         }
-    }, [query, order]);
+    }, [minPrice, maxPrice, query, order]);
 
     if (loading) {
         return <div className="loader"></div>
@@ -108,12 +116,12 @@ const SearchResults = () => {
                     <div className="flex items-center py-2 justify-between">
                         <div className="flex px-3 py-2 text-gray-700 text-base items-center">
                             <span>Showing all {productsCount} results</span>
+                            {productsCount === 0 ? "" : <button onClick={(e) => setModalPrice(current => !current)} className="px-4"><FontAwesomeIcon icon={faSliders} /><span className="px-2">Filter</span></button>}
                         </div>
                         <div className="flex">
                             <p className='font-normal text-xs md:text-sm'>
                                 <select onChange={(e) => handleAddOrder(e, 'orderBy')} className='border border-solid border-gray-300 px-4 py-2 rounded-full text-gray-600 text-base sm:text-xs leading-tight focus:outline-none pr-6 ml-2'>
                                     <option value={'default'} selected={order === null ? true : false}>Default sorting</option>
-                                    <option value={'popularity'} selected={order === 'popularity' ? true : false}>Sort by popularity</option>
                                     <option value={'latest'} selected={order === 'latest' ? true : false}>Sort by latest</option>
                                     <option value={'price-low-to-high'} selected={order === 'price-low-to-high' ? true : false}>Sort by price: low to high</option>
                                     <option value={'price-high-to-low'} selected={order === 'price-high-to-low' ? true : false}>Sort by price: high to low</option>
@@ -121,6 +129,7 @@ const SearchResults = () => {
                             </p>
                         </div>
                     </div>
+                    {modalPrice ? <FilterComponent /> : ""}
                     <div className="py-3 flex flex-wrap">
                         {showProductList}
                     </div>

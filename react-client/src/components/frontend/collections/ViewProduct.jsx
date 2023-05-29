@@ -5,35 +5,57 @@ import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import './Style.css';
-import FilterComponent from "../multirangeSlider/RangeSlider";
+import FilterComponent from "../multirangeSlider/FilterComponent";
 
 function ViewProduct(props)
-{
+{   
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const order = searchParams.get('orderBy');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState([]);
     const [category, setCategory] = useState([]);
     const [modalPrice, setModalPrice] = useState(false);
-    const productsCount = product.length;
+    const productsCount = product?.length;
     const { product_slug } = useParams();
 
-    function handleChange(e){
-        navigate(`?orderBy=${e.target.value}`)
-    }
+    // function handleChange(e){
+    //     navigate(`?orderBy=${e.target.value}`)
+    // }
+    const handleAddOrder = (e, newParams) => {
+        const existingQuery = new URLSearchParams(window.location.search);
+        const newQuery = new URLSearchParams();
+
+        if (existingQuery.has(newParams)) {
+            existingQuery.set(newParams, `${e.target.value}`);
+        } 
+        else {
+            existingQuery.append(newParams, `${e.target.value}`);
+        }
+
+        existingQuery.forEach((value, key) => {
+            newQuery.append(key, value);
+        });
+
+
+        const newURL = `${window.location.pathname}?${newQuery.toString()}`;
+
+        navigate(newURL);
+    };
 
     useEffect(() => {
         let isMounted = true;
 
-        axios.post(`/api/fetchproducts/${product_slug}`, { orderBy: order }).then(res => {
+        axios.post(`/api/fetchproducts/${product_slug}`, { orderBy: order, minPrice: minPrice, maxPrice: maxPrice }).then(res => {
             if(isMounted)
             {
                 if(res.data.status === 200)
                 {
-                    setProduct(res.data.product_data.product);
-                    setCategory(res.data.product_data.category);
+                    setProduct(res.data.product_data?.product);
+                    setCategory(res.data.product_data?.category);
                     setLoading(false);
                 }
                 else if(res.data.status ===400)
@@ -52,7 +74,7 @@ function ViewProduct(props)
             isMounted = false
         };
         
-    }, [order, product_slug, navigate]);
+    }, [minPrice, maxPrice, order, product_slug, navigate]);
 
 
     if(loading)
@@ -64,24 +86,24 @@ function ViewProduct(props)
         var showProductList = '';
         if(productsCount)
         {
-            showProductList = product.map( (item, idx) => {
+            showProductList = product?.map( (item, idx) => {
                 return (
                     <div className="flex w-1/4" key={idx}>
                         <div className="flex-col w-full px-2">
-                            <Link to={`/collections/${item.category.slug}/${item.slug}`}>
-                                <img src={`http://localhost:8000/${item.photo}`} className="w-full h-80 bg-slate-100 px-2 py-2" alt={item.name} />
+                            <Link to={`/collections/${item?.category.slug}/${item?.slug}`}>
+                                <img src={`http://localhost:8000/${item.photo}`} className="w-full h-80 bg-slate-100 px-2 py-2" alt={item?.name} />
                             </Link>
                             <div className="py-3 px-4">
-                                <Link to={`/collections/${item.category.slug}/${item.slug}`}>
-                                    <h5 className="uppercase font-bold text-ellipsis">{ item.name }</h5>
+                                <Link to={`/collections/${item?.category.slug}/${item.slug}`}>
+                                    <h5 className="uppercase font-bold text-ellipsis">{ item?.name }</h5>
                                 </Link>  
-                                {item.original_price ? 
-                                    <span className="font-thin text-gray-600 text-sm line-through">&#36;{item.original_price}</span>
+                                {item?.original_price ? 
+                                    <span className="font-thin text-gray-600 text-sm line-through">&#36;{item?.original_price}</span>
                                     :
                                     ""
                                 }    
-                                {item.original_price ? 
-                                    <span className="font-bold text-gray-700 text-sm"> &#36;{item.selling_price}</span>
+                                {item?.original_price ? 
+                                    <span className="font-bold text-gray-700 text-sm"> &#36;{item?.selling_price}</span>
                                     :
                                     ""
                                 }                         
@@ -95,7 +117,7 @@ function ViewProduct(props)
         {
             showProductList = 
             <div className="col-md-12">
-                <h4>No products available for {category.name}</h4>
+                <h4>No products available for this filter</h4>
             </div>
         }
     }
@@ -115,9 +137,8 @@ function ViewProduct(props)
                         </div>
                         <div className="flex">
                             <p className='font-normal text-xs md:text-sm'>
-                                <select onChange={handleChange} className='border border-solid border-gray-300 px-4 py-2 rounded-full text-gray-600 text-base sm:text-xs leading-tight focus:outline-none pr-6 ml-2'>
+                                <select onChange={(e) => handleAddOrder(e, 'orderBy')} className='border border-solid border-gray-300 px-4 py-2 rounded-full text-gray-600 text-base sm:text-xs leading-tight focus:outline-none pr-6 ml-2'>
                                     <option value={'default'} selected={order === null ? true : false}>Default sorting</option>
-                                    <option value={'popularity'} selected={order === 'popularity' ? true : false}>Sort by popularity</option>
                                     <option value={'latest'} selected={order === 'latest' ? true : false}>Sort by latest</option>
                                     <option value={'price-low-to-high'} selected={order === 'price-low-to-high' ? true : false}>Sort by price: low to high</option>
                                     <option value={'price-high-to-low'} selected={order === 'price-high-to-low' ? true : false}>Sort by price: high to low</option>
@@ -126,7 +147,7 @@ function ViewProduct(props)
                         </div>
                     </div>
                     {modalPrice ? <FilterComponent /> : ""}
-                    <div className="py-3 flex flex-wrap">
+                    <div className="py-3 flex flex-wrap px-3">
                         {showProductList}
                     </div>
                 </div>

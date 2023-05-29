@@ -7,6 +7,6 @@ class MinPriceFilter
 {
     public function filter($builder, $value)
     {
-        return $builder->where('original_price', '>=', $value);
+        return $builder->where('selling_price', '>=', $value);
     }
 }
