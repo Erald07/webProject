@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -102,7 +102,7 @@ function Cart() {
 
 
     if(loading){
-        return  <div class="loader"></div>
+        return  <div className="loader"></div>
     }
 
     var cart_HTML = '';
@@ -123,10 +123,10 @@ function Cart() {
                 {cart.map( (item) => {
                     totalCartPrice += item.product.selling_price * item.product_qty;
                     return(
-                        <tr className='last-of-type:border-b border-gray-300'>
-                            <td className="px-4 py-3"><img src="https://media.wired.com/photos/63f00cfbde5e9cf54ad7754a/4:3/w_1536,h_1152,c_limit/Best-Android-Phones-2023-Featured-2023.jpg" alt={item.product.name} className='w-64'/></td>
-                            <td className="pr-4 py-3">{item.product.name}</td>
-                            <td className="pr-12 py-3">{item.product.selling_price}</td>
+                        <tr key={item.id} className='last-of-type:border-b border-gray-300'>
+                            <td className="px-4 py-3"><img src={`http://localhost:8000/${item?.product?.photo}`} alt={item.product.name} className='w-64'/></td>
+                            <td className="pr-4 py-3 text-primary first-letter:uppercase">{item?.product.name}</td>
+                            <td className="pr-12 py-3">&#36;{item?.product?.selling_price}</td>
                             <td className="pr-20 py-3">
                                 <div className="w-full border border-gray-300">
                                     <div className="py-2 px-3 flex text-gray-500">
@@ -136,7 +136,7 @@ function Cart() {
                                     </div>
                                 </div>
                             </td>
-                            <td className="pr-10 py-3">{item.product.selling_price * item.product_qty}</td>
+                            <td className="pr-10 py-3">&#36;{item.product.selling_price * item.product_qty}</td>
                             <td className="px-4 py-3"><FontAwesomeIcon onClick={(e) => deleteCartItem(e, item.id)} icon={faCircleXmark} className='text-xl opacity-50 hover:opacity-100 duration-300 ease-linear' /></td>
                         </tr>
                     );
@@ -169,18 +169,18 @@ function Cart() {
                                     <div className="py-4 px-2 border-b border-gray-300">
                                         <div className="flex justify-between">
                                             <span>Subtotal</span>
-                                            <span className='pr-24'>{totalCartPrice}</span>
+                                            <span className='pr-24'>&#36;{totalCartPrice}</span>
                                         </div>
                                     </div>
                                     <div className="py-4 px-2 border-b border-gray-300">
                                         <div className="flex justify-between">
                                             <span>Total</span>
-                                            <span className='pr-24'>{totalCartPrice}</span>
+                                            <span className='pr-24'>&#36;{totalCartPrice}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="py-8 px-6 justify-center">
-                                    <button className='uppercase text-center py-4 bg-primary hover:bg-black text-white w-full rounded-md text-xl font-normal'>checkout</button>
+                                    <Link className='uppercase text-center py-4 px-6 bg-primary hover:bg-black text-white w-full rounded-md text-xl font-normal' to={'/checkout'}>checkout</Link>
                                 </div>
                             </div>
                         </div>

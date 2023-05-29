@@ -41,17 +41,20 @@ function ViewCategory() {
     }
     var viewCategory_table = '';
     if(loading){
-        return  <div class="loader"></div>
+        return  <div className="loader"></div>
     }
     else{
         viewCategory_table = categorylist.map( (category) => {
             return(
-                <tr key={category.id} className='text-center border-b-2 border-gray-300 last-of-type:border-none'>
+                <tr key={category.id} className='text-center items-center border-b-2 border-gray-300 last-of-type:border-none'>
                     <td>{category.id}</td>
                     <td>{category.name}</td>
                     <td>{category.slug}</td>
+                    <td>
+                        <img src={`http://localhost:8000/${category.photo}`} alt={category.name} className="w-20" />
+                    </td>
                     <td>{category.status}</td>
-                    <td className='flex justify-center space-x-5'>
+                    <td className='items-center flex justify-center space-x-5'>
                         <Link to={`/admin/edit-category/${category.id}`} className='py-1.5 px-2 text-base font-medium bg-secondary text-white rounded-lg'>Edit</Link>
                         <button onClick={(e) => deleteCategory(e, category.id)} className='py-1 px-2 text-lg font-base bg-pink-700 text-white rounded-lg'>Delete</button>
                     </td>
@@ -79,6 +82,9 @@ function ViewCategory() {
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Category Slug
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Category Image
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Status

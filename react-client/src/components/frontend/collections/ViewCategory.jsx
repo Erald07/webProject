@@ -14,7 +14,6 @@ function ViewCategory()
             {
                 if(res.data.status ===200)
                 {
-                    console.log(res.data.category);
                     setCategory(res.data.category);
                     setLoading(false);
                 }
@@ -27,21 +26,21 @@ function ViewCategory()
 
     if(loading)
     {
-        return  <div class="loader"></div>
+        return  <div className="loader"></div>
     }
     else
     {
         var showCategoryList = '';
-        showCategoryList = category.map( (item, idx) => {
+        showCategoryList = category.map( (category, idx) => {
             return (
-                <div className="flex w-1/4 px-3" key={idx}>
-                    <div className="flex-col">
-                        <Link to={`${item.slug}`}>
-                            <img src="https://media.wired.com/photos/63f00cfbde5e9cf54ad7754a/4:3/w_1536,h_1152,c_limit/Best-Android-Phones-2023-Featured-2023.jpg" className="w-full" alt={item.name} />
+                <div className="flex w-1/4" key={idx}>
+                    <div className="flex-col w-full px-2">
+                        <Link to={`${category.slug}`}>
+                            <img src={`http://localhost:8000/${category.photo}`} className="w-full h-80 bg-slate-100 px-2 py-2" alt={category.name} />
                         </Link>
-                        <div className="py-3">
-                            <Link to={`${item.slug}`}>
-                                <h5 className="uppercase font-bold text-ellipsis">{item.name}</h5>
+                        <div className="py-3 px-4">
+                            <Link to={`${category.slug}`}>
+                                <h5 className="uppercase font-bold text-ellipsis">{category.name}</h5>
                             </Link>
                         </div>
                     </div>
@@ -51,10 +50,10 @@ function ViewCategory()
     }
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-white">
             <div className="container">
                 <div className="py-12">
-                    <div className="py-3 flex">
+                    <div className="py-3 flex flex-wrap">
                         {showCategoryList}
                     </div>
                 </div>

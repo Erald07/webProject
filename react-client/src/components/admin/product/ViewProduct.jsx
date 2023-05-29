@@ -19,7 +19,7 @@ const ViewProduct = () => {
   var display_ProductData = "";
 
   if (loading) {
-    return  <div class="loader"></div>
+    return  <div className="loader"></div>
   } else {
     var ProductStatus = '';
     display_ProductData = viewProduct.map((item) => {
@@ -38,7 +38,7 @@ const ViewProduct = () => {
             <td>{item.original_price} &euro;</td>
             <td>{item.selling_price} &euro;</td>
             <td>
-              <img src={`http://localhost:8000/${item.image}`} alt={item.name} />
+              <img src={`http://localhost:8000/${item.photo}`} alt={item.name} className="w-20" />
             </td>
             <td className="py-3 px-2"><Link to={`/admin/edit-product/${item.id}`} className='py-1.5 px-2 text-base font-medium bg-secondary text-white rounded-lg'>Edit</Link></td>
             <td>{ProductStatus}</td>
@@ -51,7 +51,7 @@ const ViewProduct = () => {
             <td>{item.original_price} &euro;</td>
             <td>{item.selling_price} &euro;</td>
             <td>
-              <img src={`http://localhost:3000/${item.image}`} alt={item.name} />
+              <img src={`http://localhost:8000/${item.photo}`} alt={item.name} className="w-20" />
             </td>
             <td className="py-3 px-2"><Link to={`/admin/edit-product/${item.id}`} className='py-1.5 px-2 text-base font-medium bg-secondary text-white rounded-lg'>Edit</Link></td>
             <td>{ProductStatus}</td>

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import './Style.css';
+import Review from './review/Review';
 
 function ProductDetail(props) {
 
@@ -99,7 +100,7 @@ function ProductDetail(props) {
 
     if(loading)
     {
-        return  <div class="loader"></div>
+        return  <div className="loader"></div>
     }
     else{
 
@@ -119,9 +120,9 @@ function ProductDetail(props) {
                     <div className="w-2/5 mx-2">
                         <button type='button' onClick={submitAddtocart} className='bg-primary w-full px-4 py-2 rounded-md text-white font-semibold uppercase'>Add to Cart</button>
                     </div>
-                    <div className="w-2/4 mx-2">
+                    {/* <div className="w-2/4 mx-2">
                         <button type='button' className='bg-secondary w-full px-4 py-2 rounded-lg text-white font-semibold uppercase'>Add to wishlist</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         }   
@@ -135,19 +136,19 @@ function ProductDetail(props) {
     return (
         <div className='bg-gray-100'>
             <div className="container">
-                <div className="py-20 px-36">
+                <div className="py-20 px-20">
                     <div className="flex">
                         <div className="w-1/2">
-                            <img src={`https://media.wired.com/photos/63f00cfbde5e9cf54ad7754a/4:3/w_1536,h_1152,c_limit/Best-Android-Phones-2023-Featured-2023.jpg`} alt={product.name} className='w-full' />
+                            <img src={`http://localhost:8000/${product.photo}`} className="w-full" alt={product.name} />
                         </div>
-                        <div className="w-1/2 pl-10">
+                        <div className="w-1/2 pl-24">
                             <h4 className='text-primary first-letter:uppercase mb-3 text-base font-medium'>
                                 {product.category.slug}
                             </h4>
                             <h1 className='font-bold text-3xl first-letter:uppercase mb-6'>{product.name}</h1>
                             <h4 className="mb-1">
-                                {product.selling_price ? <span className='text-gray-500 font-normal text-2xl line-through'>&#36;{product.selling_price}</span> : ""}
-                                <span className="font-bold text-2xl ml-2">&#36;{product.original_price}</span>
+                                <span className="text-gray-500 font-normal text-2xl line-through">&#36;{product.original_price}</span>
+                                {product.selling_price ? <span className='font-bold text-2xl ml-2'>&#36;{product.selling_price}</span> : ""}
                             </h4>
                             <p className='py-3 text-gray-600'>{product.description}</p>
                             <div>
@@ -176,6 +177,9 @@ function ProductDetail(props) {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className="pt-12">
+                        <Review id={product.id} />
                     </div>
                 </div>
             </div>

@@ -15,10 +15,11 @@ class Category extends Model
         'slug',
         'description',
         'status',
+        'photo',
     ];
 
-    public function items()
+    public function products()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Product::class);
     }
 }
