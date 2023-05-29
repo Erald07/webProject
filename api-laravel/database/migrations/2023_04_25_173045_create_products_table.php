@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('selling_price');
             $table->string('quantity');
             $table->string('warranty');
-            $table->string('image')->nullable();
+            $table->string('photo')->nullable();
             $table->tinyInteger('featured')->default('0')->nullable();
             $table->tinyInteger('popular')->default('0')->nullable();
             $table->tinyInteger('status')->default('0')->nullable();

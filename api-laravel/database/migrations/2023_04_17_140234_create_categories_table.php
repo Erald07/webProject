@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->mediumText('description');
             $table->tinyInteger('status')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }
