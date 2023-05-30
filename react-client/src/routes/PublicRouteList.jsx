@@ -13,6 +13,8 @@ import Review from "../components/frontend/collections/review/Review";
 import Checkout from '../components/frontend/Checkout';
 import PersonalInformation from '../components/frontend/PersonalInformation';
 import SearchResults from "../components/frontend/SearchResult";
+import ThankYou from "../components/frontend/ThankYou";
+
 const publicrouteslist = [
     { path: '/', exact: true, name:'Home', component: Home },
     { path: 'about', exact: true, name:'About', component: About },
@@ -29,7 +31,8 @@ const publicrouteslist = [
     { path: 'getAllReview', exact: true, name:'AllReview', component: Review },
     { path: 'checkout', exact: true, name:'Checkout', component: Checkout },
     { path: 'personal-information', exact: true, name:'PersonalInformation', component: PersonalInformation },
-    {path: 'search', exact: true, name: 'SearchResult', component: SearchResults}
+    { path: 'search', exact: true, name: 'SearchResult', component: SearchResults},
+    { path: 'thank-you', exact: true, name: 'ThankYou', component: ThankYou}
 ];
 
 export default publicrouteslist;

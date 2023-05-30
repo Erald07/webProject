@@ -9,7 +9,7 @@ function Navbar() {
     const navigate = useNavigate();
     const [isShown, setIsShown] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [cart, setCart] = useState(true);
+    // const [cart, setCart] = useState(true);
     const [searchText, setSearchText] = useState('');
 
     const handleClick = event => {
@@ -24,14 +24,14 @@ function Navbar() {
         navigate(`/search?query=${encodeURIComponent(searchText)}`);
     };
 
-    useEffect(() => {
-        axios.get(`/api/cart`).then(res => {
-            if(res.data.status === 200)
-            {
-                setCart(res.data.cart);
-            }
-        })
-    },[]);
+    // useEffect(() => {
+    //     axios.get(`/api/cart`).then(res => {
+    //         if(res.data.status === 200)
+    //         {
+    //             setCart(res.data.cart);
+    //         }
+    //     })
+    // },[]);
 
     const logoutSubmit = (e) => {
         e.preventDefault();
@@ -125,7 +125,7 @@ function Navbar() {
                                 </div>
                                 <div className="flex text-xl text-primary">
                                     <Link to={'cart'}><FontAwesomeIcon icon={faBasketShopping} /></Link>
-                                    <span className='absolute ml-4 top-3 bg-primary px-2 py-1 text-white text-xs font-semibold rounded-full'>{cart.length ? cart.length : 0}</span>
+                                    {/* <span className='absolute ml-4 top-3 bg-primary px-2 py-1 text-white text-xs font-semibold rounded-full'>{cart.length ? cart.length : 0}</span> */}
                                 </div>
                                 <div className="flex text-xl">
                                     <FontAwesomeIcon onClick={handleClick} icon={faUser} className='cursor-pointer' />
